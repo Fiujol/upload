@@ -53,17 +53,15 @@ openport_output=$(openport --local-port 6200 2>&1 | tee /dev/tty)
 # Extract the URL using grep
 url=$(echo "$openport_output" | grep -o 'https://openport.io/l/[A-Za-z0-9/_-]*')
 
-# Copy the URL to the clipboard (using xclip or xsel)
-echo "$url" | xclip -selection clipboard  # For xclip
+# Verify if the URL was captured
+if [ -n "$url" ]; then
+    # Copy the URL to the clipboard (using xclip)
+    echo "$url" | xclip -selection clipboard
+    echo "The link $url has been copied to your clipboard."
+else
+    echo "No URL found in the output."
+fi
 
-# Alternative for xsel:
-# echo "$url" | xsel --clipboard
-
-# Notify the user that the link is copied
-echo "The link $url has been copied to your clipboard."
-
-echo "$openport_output"
-echo "The link $url has been copied to your clipboard."
 
 
 
