@@ -34,7 +34,13 @@ sudo apt-get install -f
 sudo docker --version
 
 # Start the Docker daemon in the background
-nohup sudo dockerd > /dev/null 2>&1 & sleep 22 && sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc
+nohup sudo dockerd > /dev/null 2>&1 &
+
+while ! sudo docker info > /dev/null 2>&1; do
+    sleep 1
+done
+
+sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc
 
 
 
