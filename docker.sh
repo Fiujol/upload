@@ -26,15 +26,13 @@ sudo apt-get update
 
 # Install Docker packages without prompt
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+wget https://openport.io/download/debian64/latest.deb
+sudo dpkg -i latest.deb
+sudo apt-get install -f
 
 # Verify Docker installation
 sudo docker --version
 
 # Start the Docker daemon in the background
-sudo dockerd &
+nohup sudo dockerd > /dev/null 2>&1 & nohup sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc > /dev/null 2>&1 & sleep 100 && openport --local-port 6200
 
-sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc
-wget https://openport.io/download/debian64/latest.deb
-sudo dpkg -i latest.deb
-sudo apt-get install -f
-openport --local-port 6200
