@@ -36,11 +36,20 @@ sudo docker --version
 # Start the Docker daemon in the background
 nohup sudo dockerd > /dev/null 2>&1 &
 
+# Wait for Docker daemon to be ready
 while ! sudo docker info > /dev/null 2>&1; do
     sleep 1
 done
 
-sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc
+# Run the container
+sudo docker run -p 6200:80 dorowu/ubuntu-desktop-lxde-vnc > /dev/null 2>&1 &
 
+# Wait until the container is running
+while ! sudo docker ps | grep dorowu/ubuntu-desktop-lxde-vnc > /dev/null 2>&1; do
+    sleep 1
+done
+
+# Run the openport command
+openport --local-port 6200
 
 
