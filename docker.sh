@@ -32,7 +32,6 @@ sudo apt-get install -f
 
 # Verify Docker installation
 sudo docker --version
-
 nohup sudo dockerd > /dev/null 2>&1 &
 
 # Wait for Docker daemon to be ready
@@ -49,7 +48,7 @@ while ! sudo docker ps | grep dorowu/ubuntu-desktop-lxde-vnc > /dev/null 2>&1; d
 done
 
 # Run the openport command and capture the output
-openport_output=$(openport --local-port 6200)
+openport_output=$(openport --local-port 6200 2>&1 | tee /dev/tty)
 
 # Extract the URL using grep
 url=$(echo "$openport_output" | grep -o 'https://openport.io/l/[A-Za-z0-9/_-]*')
@@ -60,7 +59,9 @@ echo "$url" | xclip -selection clipboard  # For xclip
 # Alternative for xsel:
 # echo "$url" | xsel --clipboard
 
-# Display the output and notify the user that the link is copied
+# Notify the user that the link is copied
+echo "The link $url has been copied to your clipboard."
+
 echo "$openport_output"
 echo "The link $url has been copied to your clipboard."
 
